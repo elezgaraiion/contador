@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>No mires esto</title>
+  <title>Cuenta regresiva de la tortura</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -23,7 +23,7 @@
       font-size: 10vw;
       font-weight: 900;
       letter-spacing: -0.05em;
-      animation: pulse 0.6s infinite alternate;
+      animation: pulse 0.5s infinite alternate;
     }
 
     #label {
@@ -32,14 +32,14 @@
       opacity: 0.6;
     }
 
-    @keyframes pulse {
-      from { transform: scale(1); }
-      to   { transform: scale(1.04); }
-    }
-
     .danger {
       color: #ff0033;
-      animation: shake 0.08s infinite;
+      animation: shake 0.07s infinite, flash 0.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to   { transform: scale(1.05); }
     }
 
     @keyframes shake {
@@ -48,6 +48,12 @@
       50% { transform: translate(-1px, 1px); }
       75% { transform: translate(1px, 1px); }
       100% { transform: translate(0, 0); }
+    }
+
+    @keyframes flash {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
     }
 
     @media (max-width: 600px) {
@@ -64,28 +70,40 @@
   </div>
 
   <script>
-    // VIERNES 13 FEBRERO 2026 – 10:00 ESPAÑA (UTC+1)
     const targetDate = new Date("2026-02-13T09:00:00Z").getTime();
-
     const el = document.getElementById("milliseconds");
 
     function updateCounter() {
-      const now = Date.now(); // ✅ ahora solo usamos Date.now()
+      const now = Date.now();
       let diff = targetDate - now;
 
       if (diff < 0) diff = 0;
 
-      // Mostrar MILISEGUNDOS CRUDOS
-      el.textContent = Math.floor(diff);
+      // Aceleración psicológica: sumamos una "caída falsa" para que parezca más rápido
+      let fakeAcceleration = Math.floor((targetDate - now) / 5000); // aumenta sensación de urgencia
+      let display = Math.max(0, diff - fakeAcceleration);
 
-      // Aumentar estrés visual cuando falta menos de 24h
-      if (diff < 1000 * 60 * 60 * 24) { 
+      el.textContent = display;
+
+      // Mensajes crueles según el tiempo restante
+      if (diff > 1000*60*60*24*7) { // más de una semana
+        el.nextSibling.textContent = "Todavía queda mucho... pero nada es seguro";
+      } else if (diff > 1000*60*60*24) { // 1 día - 1 semana
+        el.nextSibling.textContent = "Se acerca el momento... no hay escapatoria";
+      } else if (diff > 1000*60*60) { // menos de un día
+        el.nextSibling.textContent = "Ya casi... sienten que pierden el control";
+      } else if (diff > 1000*60) { // menos de una hora
+        el.nextSibling.textContent = "Cada segundo cuenta... y los segundos desaparecen";
         el.classList.add("danger");
         document.body.style.background = "#050000";
+      } else { // últimos minutos
+        el.nextSibling.textContent = "Es demasiado tarde para retroceder... lloren ahora";
+        el.classList.add("danger");
+        document.body.style.background = "#220000";
       }
     }
 
-    // Actualización agresiva (≈33 veces por segundo)
+    // Ultra actualización para sensación de ansiedad
     setInterval(updateCounter, 30);
   </script>
 
