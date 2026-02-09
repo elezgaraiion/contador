@@ -25,7 +25,7 @@
     }
 
     #milliseconds {
-      font-size: 11vw;
+      font-size: 10vw;
       font-weight: 900;
       letter-spacing: -0.08em;
       animation: glitch 0.2s infinite;
@@ -36,6 +36,14 @@
       font-size: 2.5vw;
       opacity: 0.7;
       animation: flicker 0.12s infinite;
+    }
+
+    #percentage {
+      font-size: 2vw;
+      margin-top: 5px;
+      color: #88ff00;
+      opacity: 0.8;
+      animation: flicker 0.15s infinite;
     }
 
     @keyframes bgFlash {
@@ -73,8 +81,9 @@
     }
 
     @media (max-width: 600px) {
-      #milliseconds { font-size: 18vw; }
-      #label { font-size: 5vw; }
+      #milliseconds { font-size: 16vw; }
+      #label { font-size: 4vw; }
+      #percentage { font-size: 3vw; }
     }
   </style>
 </head>
@@ -83,14 +92,17 @@
   <div id="container">
     <div id="milliseconds">0</div>
     <div id="label">NO SE PUEDE DETENER</div>
+    <div id="percentage">0.000000%</div>
   </div>
 
   <script>
     // VIERNES 13 FEBRERO 2026 – 10:00 ESPAÑA
     const targetDate = new Date("2026-02-13T09:00:00Z").getTime();
+    const startDate = Date.now();
 
     const msEl = document.getElementById("milliseconds");
     const labelEl = document.getElementById("label");
+    const pctEl = document.getElementById("percentage");
 
     const messages = [
       "ALGUIEN SE VA",
@@ -110,14 +122,20 @@
       let diff = targetDate - now;
       if (diff < 0) diff = 0;
 
-      // aceleración falsa + jitter
+      // Aceleración psicológica
       const chaos = Math.floor(Math.random() * 5000);
       msEl.textContent = Math.max(0, diff - chaos);
 
-      // mensajes aleatorios para desorientar
+      // Mensajes aleatorios
       labelEl.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-      // modo pánico cuando falta poco
+      // Porcentaje transcurrido con muchísimas decimales
+      let totalDuration = targetDate - startDate;
+      let elapsed = now - startDate;
+      let pct = (elapsed / totalDuration) * 100;
+      pctEl.textContent = pct.toFixed(6) + "%"; // 6 decimales mínimo, cambia constantemente
+
+      // Modo pánico visual
       if (diff < 1000 * 60 * 60 * 24) {
         msEl.classList.add("panic");
         document.body.style.animationDuration = "0.08s";
