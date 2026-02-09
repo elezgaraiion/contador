@@ -67,4 +67,27 @@
     // VIERNES 13 FEBRERO 2026 – 10:00 ESPAÑA (UTC+1)
     const targetDate = new Date("2026-02-13T09:00:00Z").getTime();
 
-    const el = document.getElementById("milliseconds"
+    const el = document.getElementById("milliseconds");
+
+    function updateCounter() {
+      const now = Date.now(); // ✅ ahora solo usamos Date.now()
+      let diff = targetDate - now;
+
+      if (diff < 0) diff = 0;
+
+      // Mostrar MILISEGUNDOS CRUDOS
+      el.textContent = Math.floor(diff);
+
+      // Aumentar estrés visual cuando falta menos de 24h
+      if (diff < 1000 * 60 * 60 * 24) { 
+        el.classList.add("danger");
+        document.body.style.background = "#050000";
+      }
+    }
+
+    // Actualización agresiva (≈33 veces por segundo)
+    setInterval(updateCounter, 30);
+  </script>
+
+</body>
+</html>
