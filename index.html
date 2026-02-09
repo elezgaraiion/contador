@@ -2,13 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Cuenta regresiva en segundos</title>
+  <title>No mires esto</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       margin: 0;
-      background: #000;
+      background: black;
       color: #00ff88;
       font-family: monospace;
       display: flex;
@@ -16,45 +16,55 @@
       align-items: center;
       height: 100vh;
       text-align: center;
+      overflow: hidden;
     }
 
-    #seconds {
-      font-size: 12vw;
-      font-weight: bold;
+    #milliseconds {
+      font-size: 10vw;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      animation: pulse 0.6s infinite alternate;
     }
 
     #label {
-      font-size: 3vw;
-      opacity: 0.7;
+      margin-top: 10px;
+      font-size: 2.5vw;
+      opacity: 0.6;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to   { transform: scale(1.04); }
+    }
+
+    .danger {
+      color: #ff0033;
+      animation: shake 0.08s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(1px, -1px); }
+      50% { transform: translate(-1px, 1px); }
+      75% { transform: translate(1px, 1px); }
+      100% { transform: translate(0, 0); }
     }
 
     @media (max-width: 600px) {
-      #seconds { font-size: 20vw; }
-      #label { font-size: 5vw; }
+      #milliseconds { font-size: 16vw; }
+      #label { font-size: 4vw; }
     }
   </style>
 </head>
 <body>
 
   <div>
-    <div id="seconds">0</div>
-    <div id="label">SEGUNDOS RESTANTES</div>
+    <div id="milliseconds">0</div>
+    <div id="label">MILISEGUNDOS RESTANTES</div>
   </div>
 
   <script>
+    // VIERNES 13 FEBRERO 2026 – 10:00 ESPAÑA (UTC+1)
     const targetDate = new Date("2026-02-13T09:00:00Z").getTime();
 
-
-    function updateCounter() {
-      const now = Date.now();
-      let diff = Math.floor((targetDate - now) / 1000);
-      if (diff < 0) diff = 0;
-      document.getElementById("seconds").textContent = diff;
-    }
-
-    updateCounter();
-    setInterval(updateCounter, 1000);
-  </script>
-
-</body>
-</html>
+    const el = document.getElementById("milliseconds"
