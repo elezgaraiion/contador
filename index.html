@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cuenta regresiva en segundos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #00ff88;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    #seconds {
+      font-size: 12vw;
+      font-weight: bold;
+    }
+
+    #label {
+      font-size: 3vw;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 600px) {
+      #seconds { font-size: 20vw; }
+      #label { font-size: 5vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <div id="seconds">0</div>
+    <div id="label">SEGUNDOS RESTANTES</div>
+  </div>
+
+  <script>
+    const targetDate = new Date("2026-03-01T00:00:00Z").getTime();
+
+    function updateCounter() {
+      const now = Date.now();
+      let diff = Math.floor((targetDate - now) / 1000);
+      if (diff < 0) diff = 0;
+      document.getElementById("seconds").textContent = diff;
+    }
+
+    updateCounter();
+    setInterval(updateCounter, 1000);
+  </script>
+
+</body>
+</html>
